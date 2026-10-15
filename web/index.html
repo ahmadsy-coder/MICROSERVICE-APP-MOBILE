@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0b1020">
+    <meta name="description" content="Gérez votre portefeuille et vos prestations avec Nikitin.">
+    <title>Nikitin — Votre portefeuille</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Nikitin, accueil">
+          <span class="brand-mark" aria-hidden="true">N</span>
+          <span class="brand-copy">
+            <strong>NIKITIN</strong>
+            <small>PORTFEUILLE</small>
+          </span>
+        </a>
+        <div class="topbar-right">
+          <span class="secure-label"><span class="secure-dot"></span> Espace sécurisé</span>
+          <button class="button button-quiet button-small" id="logoutButton" type="button" hidden>Déconnexion</button>
+        </div>
+      </header>
+
+      <main>
+        <section class="auth-layout" id="authView">
+          <div class="auth-intro">
+            <span class="eyebrow"><span class="eyebrow-line"></span> VOTRE ARGENT, EN MOUVEMENT</span>
+            <h1>Le contrôle de votre argent, <span>en toute simplicité.</span></h1>
+            <p>Un portefeuille clair pour suivre votre solde, effectuer vos opérations et commander les services dont vous avez besoin.</p>
+            <div class="intro-points">
+              <div><span class="point-icon">01</span><span><strong>Gardez le cap</strong><small>Votre solde et vos opérations au même endroit.</small></span></div>
+              <div><span class="point-icon">02</span><span><strong>Allez à l’essentiel</strong><small>Des démarches simples, depuis votre navigateur.</small></span></div>
+            </div>
+            <div class="intro-note"><span aria-hidden="true">✳</span> Simple. Sécurisé. Toujours à portée de main.</div>
+          </div>
+
+          <div class="auth-card">
+            <div class="auth-heading">
+              <div class="auth-icon" aria-hidden="true">↗</div>
+              <div>
+                <p class="eyebrow">BON RETOUR</p>
+                <h2 id="authTitle">Connectez-vous</h2>
+                <p id="authSubtitle">Retrouvez votre espace portefeuille.</p>
+              </div>
+            </div>
+
+            <form id="loginForm" class="form-stack">
+              <label for="loginPhone">Téléphone ou identifiant</label>
+              <input id="loginPhone" name="telephone" type="text" autocomplete="username" placeholder="+221 77 100 00 01" required>
+              <label for="loginPin">Code PIN</label>
+              <input id="loginPin" name="pin" type="password" inputmode="numeric" autocomplete="current-password" placeholder="Votre code PIN" required>
+              <p class="form-error" id="loginError" role="alert" hidden></p>
+              <button class="button button-primary button-full" type="submit">
+                <span>Se connecter</span><span aria-hidden="true">→</span>
+              </button>
+              <div class="form-footnote">Vos identifiants sont transmis de manière sécurisée à votre service bancaire.</div>
+            </form>
+
+            <form id="registerForm" class="form-stack" hidden>
+              <div class="form-section-label">01 <span>Vérifiez votre téléphone</span></div>
+              <label for="registerPhone">Téléphone</label>
+              <div class="input-inline">
+                <input id="registerPhone" name="telephone" type="tel" autocomplete="tel" placeholder="+221 77 100 00 01" required>
+                <button class="button button-outline button-small" id="sendOtpButton" type="button">Recevoir le code</button>
+              </div>
+              <label for="registerOtp">Code de vérification</label>
+              <input id="registerOtp" name="otp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="Code à 6 chiffres" required>
+              <p class="inline-success" id="otpMessage" hidden></p>
+
+              <div class="form-section-label">02 <span>Créez votre compte</span></div>
+              <div class="form-grid">
+                <div><label for="registerFirstName">Prénom</label><input id="registerFirstName" name="prenom" autocomplete="given-name" required></div>
+                <div><label for="registerLastName">Nom</label><input id="registerLastName" name="nom" autocomplete="family-name" required></div>
+              </div>
+              <label for="registerDocument">Numéro de pièce d’identité</label>
+              <input id="registerDocument" name="numPiece" required>
+              <label for="registerAddress">Adresse</label>
+              <input id="registerAddress" name="adresse" autocomplete="street-address" required>
+              <div class="form-grid">
+                <div><label for="registerBirthDate">Date de naissance</label><input id="registerBirthDate" name="dateNaissance" type="date" required></div>
+                <div><label for="registerBalance">Dépôt initial (FCFA)</label><input id="registerBalance" name="solde" type="number" min="10000" step="1" value="10000" required></div>
+              </div>
+              <label for="registerPin">Choisissez un code PIN (4 à 6 chiffres)</label>
+              <input id="registerPin" name="pin" type="password" inputmode="numeric" autocomplete="new-password" minlength="4" maxlength="6" pattern="[0-9]{4,6}" required>
+              <p class="form-error" id="registerError" role="alert" hidden></p>
+              <button class="button button-primary button-full" type="submit"><span>Créer mon compte</span><span aria-hidden="true">→</span></button>
+            </form>
+
+            <div class="auth-switch">
+              <span id="switchPrompt">Vous n’avez pas encore de compte ?</span>
+              <button class="text-button" id="switchAuthButton" type="button">Créer un compte</button>
+            </div>
+
+            <details class="demo-details">
+              <summary>Accéder aux comptes de démonstration</summary>
+              <div class="demo-options">
+                <button type="button" data-demo-phone="+221771000001" data-demo-pin="1234"><span>Client 1</span><small>+221 77 100 00 01</small></button>
+                <button type="button" data-demo-phone="+221771000002" data-demo-pin="1234"><span>Client 2</span><small>+221 77 100 00 02</small></button>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <section class="wallet-layout" id="walletView" hidden>
+          <aside class="sidebar">
+            <div class="profile-mini">
+              <div class="avatar" id="profileAvatar">N</div>
+              <div><strong id="profileName">Mon portefeuille</strong><small id="profilePhone"></small></div>
+            </div>
+            <p class="sidebar-label">ESPACE PERSONNEL</p>
+            <nav class="side-nav" aria-label="Navigation principale">
+              <button class="nav-item is-active" type="button" data-view="dashboard"><span class="nav-icon">◫</span> Vue d’ensemble <span class="nav-arrow">›</span></button>
+              <button class="nav-item" type="button" data-view="services"><span class="nav-icon">◇</span> Services <span class="nav-arrow">›</span></button>
+              <button class="nav-item" type="button" data-view="activity"><span class="nav-icon">↗</span> Mes dépenses <span class="nav-arrow">›</span></button>
+            </nav>
+            <div class="sidebar-card"><span class="sidebar-card-icon">✳</span><strong>Votre espace, vos règles.</strong><p>Gardez une vue claire sur votre argent et vos demandes.</p></div>
+            <div class="sidebar-footer"><span class="secure-dot"></span> Connexion sécurisée</div>
+          </aside>
+
+          <div class="workspace">
+            <section class="page-view" id="dashboardPage">
+              <div class="page-heading">
+                <div><p class="eyebrow" id="todayLabel">VOTRE ESPACE</p><h1>Bonjour<span id="greetingName"></span> <span class="greeting-spark">✳</span></h1><p>Voici ce qui se passe sur votre portefeuille aujourd’hui.</p></div>
+                <button class="icon-button" id="refreshButton" type="button" aria-label="Actualiser les données" title="Actualiser">↻</button>
+              </div>
+
+              <div class="dashboard-grid">
+                <article class="balance-card">
+                  <div class="balance-top"><span class="balance-chip"><span class="secure-dot"></span> PORTEFEUILLE ACTIF</span><span class="balance-brand">N<span>.</span></span></div>
+                  <div class="balance-label">SOLDE DISPONIBLE</div>
+                  <div class="balance-amount" id="balanceAmount">— <span>FCFA</span></div>
+                  <div class="balance-bottom"><div><small>TITULAIRE</small><strong id="cardHolder">—</strong></div><div><small>NUMÉRO DE COMPTE</small><strong id="accountNumber">—</strong></div><span class="balance-orbit" aria-hidden="true"></span></div>
+                </article>
+                <article class="welcome-card">
+                  <span class="welcome-orbit" aria-hidden="true"></span>
+                  <p class="eyebrow">VOTRE ARGENT, VOTRE RYTHME</p>
+                  <h2>Tout est sous contrôle.</h2>
+                  <p>Gérez votre argent et vos services depuis un espace unique.</p>
+                  <button class="button button-light" type="button" data-open-view="services">Explorer les services <span aria-hidden="true">→</span></button>
+                  <span class="welcome-number" aria-hidden="true">01</span>
+                </article>
+              </div>
+
+              <div class="section-heading"><div><p class="eyebrow">FAITES LE PROCHAIN PAS</p><h2>Actions rapides</h2></div><span class="section-hint">Des opérations simples, quand vous le souhaitez.</span></div>
+              <div class="action-grid">
+                <button class="action-card action-deposit" type="button" data-transaction="DEPOT"><span class="action-icon">＋</span><span><strong>Faire un dépôt</strong><small>Ajouter des fonds au portefeuille</small></span><span class="action-arrow">↗</span></button>
+                <button class="action-card" type="button" data-transaction="RETRAIT"><span class="action-icon action-icon-outline">↘</span><span><strong>Faire un retrait</strong><small>Retirer des fonds du portefeuille</small></span><span class="action-arrow">↗</span></button>
+              </div>
+
+              <div class="section-heading activity-heading"><div><p class="eyebrow">VOS DERNIÈRES OPÉRATIONS</p><h2>Activité récente</h2></div><button class="text-button" type="button" data-open-view="activity">Voir l’historique <span aria-hidden="true">→</span></button></div>
+              <div class="activity-list" id="recentTransactions"><div class="empty-state"><span class="empty-icon">↗</span><strong>Aucune opération pour le moment</strong><p>Vos opérations effectuées apparaîtront ici.</p></div></div>
+            </section>
+
+            <section class="page-view" id="servicesPage" hidden>
+              <div class="page-heading">
+                <div><p class="eyebrow">UN PEU DE TEMPS POUR VOUS</p><h1>Services <span class="greeting-spark">✳</span></h1><p>Découvrez le catalogue et suivez vos demandes de prestation.</p></div>
+                <button class="button button-primary" id="newOrderButton" type="button"><span>Nouvelle demande</span><span aria-hidden="true">＋</span></button>
+              </div>
+              <div class="section-heading"><div><p class="eyebrow">LE CATALOGUE</p><h2>Services disponibles</h2></div><span class="section-hint" id="serviceCount"></span></div>
+              <div class="service-grid" id="serviceList"><div class="empty-state"><strong>Chargement des services…</strong></div></div>
+              <div class="section-heading service-requests-heading"><div><p class="eyebrow">VOTRE SUIVI</p><h2>Mes demandes</h2></div><span class="section-hint">Payez une demande en attente en toute sécurité.</span></div>
+              <div class="request-list" id="prestationList"><div class="empty-state"><strong>Chargement des demandes…</strong></div></div>
+            </section>
+
+            <section class="page-view" id="activityPage" hidden>
+              <div class="page-heading"><div><p class="eyebrow">SUIVEZ LE MOUVEMENT</p><h1>Mes dépenses <span class="greeting-spark">✳</span></h1><p>Un aperçu des demandes et des opérations de cette session.</p></div></div>
+              <div class="stat-grid">
+                <article class="stat-card"><span class="stat-icon">◈</span><small>SOLDE ACTUEL</small><strong id="statBalance">—</strong><span>Votre portefeuille</span></article>
+                <article class="stat-card"><span class="stat-icon">↗</span><small>PRESTATIONS PAYÉES</small><strong id="statPaid">0</strong><span id="statSpent">0 FCFA dépensés</span></article>
+                <article class="stat-card"><span class="stat-icon">◷</span><small>EN ATTENTE</small><strong id="statPending">0</strong><span>Demande(s) à régler</span></article>
+              </div>
+              <div class="section-heading"><div><p class="eyebrow">VOTRE HISTORIQUE</p><h2>Opérations récentes</h2></div></div>
+              <div class="activity-list" id="allTransactions"><div class="empty-state"><span class="empty-icon">↗</span><strong>Aucune opération pour le moment</strong><p>Les opérations effectuées dans cette session apparaîtront ici.</p></div></div>
+              <p class="data-note">L’API bancaire ne fournit pas encore d’historique des transactions. Les opérations listées ici concernent cette session uniquement.</p>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <dialog class="modal" id="transactionDialog">
+      <form id="transactionForm" class="modal-card">
+        <button class="modal-close" type="button" data-close-dialog aria-label="Fermer">×</button>
+        <p class="eyebrow" id="transactionEyebrow">PORTEFEUILLE</p>
+        <h2 id="transactionTitle">Effectuer une opération</h2>
+        <p class="modal-description" id="transactionDescription"></p>
+        <label for="transactionAmount">Montant en FCFA</label>
+        <input id="transactionAmount" name="montant" type="number" min="1" step="1" required>
+        <div id="pinField" hidden><label for="transactionPin">Code PIN</label><input id="transactionPin" name="pin" type="password" inputmode="numeric" autocomplete="current-password" minlength="4" required></div>
+        <p class="form-error" id="transactionError" role="alert" hidden></p>
+        <button class="button button-primary button-full" type="submit"><span id="transactionSubmitLabel">Confirmer</span><span aria-hidden="true">→</span></button>
+      </form>
+    </dialog>
+
+    <dialog class="modal" id="orderDialog">
+      <form id="orderForm" class="modal-card modal-card-wide">
+        <button class="modal-close" type="button" data-close-dialog aria-label="Fermer">×</button>
+        <p class="eyebrow">FAITES VOTRE CHOIX</p>
+        <h2>Nouvelle demande</h2>
+        <p class="modal-description">Choisissez les services et indiquez votre période et votre budget.</p>
+        <label>Services souhaités <span class="required-note">(au moins un)</span></label>
+        <div class="service-checkboxes" id="orderServiceOptions"><p class="form-hint">Chargement des services…</p></div>
+        <label for="orderDescription">Votre demande</label>
+        <textarea id="orderDescription" name="description" rows="3" maxlength="4000" placeholder="Décrivez brièvement votre besoin"></textarea>
+        <div class="form-grid">
+          <div><label for="orderStart">Date de début</label><input id="orderStart" name="dateDebut" type="datetime-local" required></div>
+          <div><label for="orderEnd">Date de fin</label><input id="orderEnd" name="dateFin" type="datetime-local" required></div>
+        </div>
+        <div class="form-grid">
+          <div><label for="orderPrice">Budget (FCFA)</label><input id="orderPrice" name="prix" type="number" min="0" step="1" placeholder="Ex. 25 000" required></div>
+          <div><label for="orderPin">Code PIN <span class="required-note">(facultatif)</span></label><input id="orderPin" name="pin" type="password" inputmode="numeric" autocomplete="current-password" placeholder="Pour payer maintenant"></div>
+        </div>
+        <p class="form-hint">Sans code PIN, votre demande sera enregistrée et vous pourrez la régler plus tard.</p>
+        <p class="form-error" id="orderError" role="alert" hidden></p>
+        <button class="button button-primary button-full" type="submit"><span>Envoyer la demande</span><span aria-hidden="true">→</span></button>
+      </form>
+    </dialog>
+
+    <dialog class="modal" id="paymentDialog">
+      <form id="paymentForm" class="modal-card">
+        <button class="modal-close" type="button" data-close-dialog aria-label="Fermer">×</button>
+        <p class="eyebrow">CONFIRMATION SÉCURISÉE</p>
+        <h2>Régler la demande</h2>
+        <p class="modal-description" id="paymentDescription"></p>
+        <label for="paymentPin">Confirmez avec votre code PIN</label>
+        <input id="paymentPin" name="pin" type="password" inputmode="numeric" autocomplete="current-password" minlength="4" required>
+        <p class="form-error" id="paymentError" role="alert" hidden></p>
+        <button class="button button-primary button-full" type="submit"><span>Confirmer le paiement</span><span aria-hidden="true">→</span></button>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  </body>
+</html>
